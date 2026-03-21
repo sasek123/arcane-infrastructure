@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 600 24" width="600" height="24">
+  <line x1="0" y1="12" x2="14" y2="12" stroke="#e8e0d0" stroke-width="1.4" stroke-linecap="round"/>
+  <text x="22" y="16" font-family="monospace" font-size="9" font-weight="400"
+        fill="#e8e0d0" letter-spacing="3">ARCANE</text>
+  <line x1="90" y1="12" x2="600" y2="12" stroke="currentColor" stroke-width="0.5" opacity="0.12"/>
+</svg>

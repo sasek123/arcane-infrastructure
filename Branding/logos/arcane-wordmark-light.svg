@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 320 100" width="320" height="100"
+     role="img" aria-label="Arcane logo">
+  <title>Arcane</title>
+  <desc>Arcane brand wordmark</desc>
+
+  <!-- background -->
+  <rect width="320" height="100" fill="#f6f6f4" rx="0"/>
+
+  <!-- wordmark -->
+  <text x="24" y="63.0"
+        font-family="'Syne', 'Space Grotesk', sans-serif"
+        font-size="42" font-weight="800" letter-spacing="-1"
+        fill="#060606" text-anchor="start"
+        dominant-baseline="middle">ARCANE</text>
+
+</svg>

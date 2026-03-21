@@ -1,0 +1,360 @@
+/**
+ * ARCANE — Component Styles
+ * Import arcane-tokens.css first.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;800&family=Space+Mono&display=swap');
+
+/* ── Reset / Base ────────────────────────────────────────────────────────── */
+.arc-root {
+  background: var(--arc-bg);
+  color: var(--arc-text);
+  font-family: var(--arc-font-body);
+  font-weight: var(--arc-weight-regular);
+  line-height: var(--arc-leading-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Wordmark ────────────────────────────────────────────────────────────── */
+.arc-wordmark {
+  font-family: var(--arc-font-display);
+  font-weight: var(--arc-weight-bold);
+  font-size: var(--arc-text-2xl);
+  letter-spacing: var(--arc-tracking-tight);
+  text-transform: uppercase;
+  color: var(--arc-text);
+  line-height: 1;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.arc-wordmark--sm  { font-size: var(--arc-text-lg); }
+.arc-wordmark--md  { font-size: var(--arc-text-2xl); }
+.arc-wordmark--lg  { font-size: var(--arc-text-3xl); }
+.arc-wordmark--xl  { font-size: var(--arc-text-5xl); }
+.arc-wordmark--light { color: var(--arc-void); }
+
+.arc-dept {
+  font-family: var(--arc-font-mono);
+  font-size: var(--arc-text-xs);
+  font-weight: var(--arc-weight-regular);
+  letter-spacing: var(--arc-tracking-widest);
+  text-transform: uppercase;
+  color: var(--arc-accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.arc-dept::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.arc-dept--light {
+  color: rgba(6,6,6,0.4);
+}
+
+/* ── Icon Mark ───────────────────────────────────────────────────────────── */
+.arc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--arc-void);
+  border: 1px solid var(--arc-border-md);
+  border-radius: var(--arc-radius-md);
+  font-family: var(--arc-font-display);
+  font-weight: var(--arc-weight-bold);
+  color: var(--arc-white);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  line-height: 1;
+  user-select: none;
+}
+.arc-icon--xs  { width: 24px; height: 24px; font-size: 11px; border-radius: 4px; }
+.arc-icon--sm  { width: 32px; height: 32px; font-size: 14px; border-radius: 6px; }
+.arc-icon--md  { width: 44px; height: 44px; font-size: 20px; border-radius: 8px; }
+.arc-icon--lg  { width: 64px; height: 64px; font-size: 28px; border-radius: 12px; }
+.arc-icon--xl  { width: 96px; height: 96px; font-size: 42px; border-radius: 16px; }
+.arc-icon--light {
+  background: var(--arc-white);
+  color: var(--arc-void);
+  border-color: rgba(6,6,6,0.1);
+}
+
+/* ── Logo Lockup (icon + wordmark combined) ──────────────────────────────── */
+.arc-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--arc-space-3);
+  text-decoration: none;
+  cursor: pointer;
+}
+.arc-logo__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.arc-logo__wm {
+  font-family: var(--arc-font-display);
+  font-weight: var(--arc-weight-bold);
+  font-size: var(--arc-text-md);
+  letter-spacing: var(--arc-tracking-tight);
+  text-transform: uppercase;
+  color: var(--arc-text);
+  line-height: 1;
+}
+.arc-logo__dept {
+  font-family: var(--arc-font-mono);
+  font-size: 7px;
+  letter-spacing: var(--arc-tracking-widest);
+  text-transform: uppercase;
+  color: var(--arc-accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.arc-logo__dept::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 1px;
+  background: currentColor;
+}
+
+/* ── Nav Bar ─────────────────────────────────────────────────────────────── */
+.arc-nav {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--arc-space-8);
+  background: var(--arc-void);
+  border-bottom: 1px solid var(--arc-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.arc-nav__logo {
+  display: flex;
+  align-items: center;
+}
+.arc-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.arc-nav__link {
+  font-family: var(--arc-font-mono);
+  font-size: var(--arc-text-xs);
+  font-weight: var(--arc-weight-regular);
+  letter-spacing: var(--arc-tracking-wide);
+  text-transform: uppercase;
+  color: var(--arc-text-faint);
+  text-decoration: none;
+  padding: 0 var(--arc-space-5);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--arc-border);
+  transition: color var(--arc-duration-fast) var(--arc-ease);
+}
+.arc-nav__link:hover { color: var(--arc-text); }
+.arc-nav__link:last-child { border-right: none; }
+.arc-nav__cta {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--arc-space-5);
+  font-family: var(--arc-font-mono);
+  font-size: var(--arc-text-xs);
+  letter-spacing: var(--arc-tracking-wide);
+  text-transform: uppercase;
+  background: var(--arc-accent);
+  color: var(--arc-void);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity var(--arc-duration-fast) var(--arc-ease);
+}
+.arc-nav__cta:hover { opacity: 0.88; }
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.arc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--arc-space-2);
+  font-family: var(--arc-font-mono);
+  font-size: var(--arc-text-xs);
+  font-weight: var(--arc-weight-regular);
+  letter-spacing: var(--arc-tracking-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--arc-radius-sm);
+  padding: var(--arc-space-3) var(--arc-space-5);
+  cursor: pointer;
+  border: none;
+  transition: all var(--arc-duration-fast) var(--arc-ease);
+  white-space: nowrap;
+}
+.arc-btn--primary {
+  background: var(--arc-accent);
+  color: var(--arc-void);
+}
+.arc-btn--primary:hover { opacity: 0.88; }
+.arc-btn--ghost {
+  background: transparent;
+  color: var(--arc-text-faint);
+  border: 1px solid var(--arc-border-md);
+}
+.arc-btn--ghost:hover {
+  border-color: var(--arc-border-lg);
+  color: var(--arc-text);
+}
+.arc-btn--lg {
+  font-size: var(--arc-text-sm);
+  padding: var(--arc-space-4) var(--arc-space-7);
+}
+
+/* ── Card ────────────────────────────────────────────────────────────────── */
+.arc-card {
+  background: var(--arc-surface);
+  border: 1px solid var(--arc-border);
+  border-radius: var(--arc-radius-lg);
+  padding: var(--arc-space-6);
+  position: relative;
+  overflow: hidden;
+}
+.arc-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 80px; height: 80px;
+  border-top-left-radius: 80px;
+  border: 1px solid var(--arc-border);
+  pointer-events: none;
+}
+.arc-card--elevated {
+  background: var(--arc-surface-2);
+}
+.arc-card:hover {
+  border-color: var(--arc-border-md);
+  transition: border-color var(--arc-duration-base) var(--arc-ease);
+}
+
+/* ── Tag / Badge ─────────────────────────────────────────────────────────── */
+.arc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--arc-space-2);
+  font-family: var(--arc-font-mono);
+  font-size: 9px;
+  letter-spacing: var(--arc-tracking-wide);
+  text-transform: uppercase;
+  color: var(--arc-accent);
+  border: 1px solid var(--arc-border-accent);
+  border-radius: var(--arc-radius-sm);
+  padding: 4px 10px;
+  background: rgba(232, 224, 208, 0.05);
+}
+
+/* ── Section Header ──────────────────────────────────────────────────────── */
+.arc-section-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: var(--arc-space-7);
+}
+.arc-section-num {
+  font-family: var(--arc-font-mono);
+  font-size: var(--arc-text-xs);
+  letter-spacing: var(--arc-tracking-wider);
+  color: var(--arc-accent);
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.arc-section-num::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--arc-accent);
+  display: block;
+}
+.arc-section-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--arc-border);
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+.arc-divider {
+  height: 1px;
+  background: var(--arc-border);
+  margin: var(--arc-space-9) 0;
+}
+
+/* ── Typography Utilities ────────────────────────────────────────────────── */
+.arc-display {
+  font-family: var(--arc-font-display);
+  font-weight: var(--arc-weight-bold);
+  font-size: var(--arc-text-5xl);
+  letter-spacing: var(--arc-tracking-tight);
+  text-transform: uppercase;
+  line-height: var(--arc-leading-tight);
+}
+.arc-heading {
+  font-family: var(--arc-font-display);
+  font-weight: 600;
+  font-size: var(--arc-text-2xl);
+  letter-spacing: -0.01em;
+  line-height: var(--arc-leading-snug);
+}
+.arc-body {
+  font-family: var(--arc-font-body);
+  font-weight: var(--arc-weight-regular);
+  font-size: var(--arc-text-base);
+  line-height: var(--arc-leading-loose);
+  color: rgba(246, 246, 244, 0.45);
+}
+.arc-label {
+  font-family: var(--arc-font-mono);
+  font-size: var(--arc-text-xs);
+  letter-spacing: var(--arc-tracking-wider);
+  text-transform: uppercase;
+  color: var(--arc-accent);
+}
+.arc-meta {
+  font-family: var(--arc-font-mono);
+  font-size: var(--arc-text-xs);
+  letter-spacing: var(--arc-tracking-wide);
+  text-transform: uppercase;
+  color: var(--arc-text-faint);
+}
+
+/* ── Ghost Text (decorative bg element) ─────────────────────────────────── */
+.arc-ghost {
+  font-family: var(--arc-font-display);
+  font-weight: var(--arc-weight-bold);
+  text-transform: uppercase;
+  color: currentColor;
+  opacity: 0.025;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+/* ── Dark / Light mode ───────────────────────────────────────────────────── */
+@media (prefers-color-scheme: light) {
+  .arc-root {
+    --arc-bg:      #f6f6f4;
+    --arc-surface: #f0efeb;
+    --arc-text:    #060606;
+    --arc-border:  rgba(0,0,0,0.06);
+    --arc-border-md: rgba(0,0,0,0.1);
+  }
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 320 100" width="320" height="100"
+     role="img" aria-label="Arcane logo">
+  <title>Arcane</title>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .wm-text  { fill: #f6f6f4; }
+      .dept-text { fill: #e8e0d0; }
+      .dept-line { stroke: #e8e0d0; }
+    }
+    @media (prefers-color-scheme: light) {
+      .wm-text  { fill: #060606; }
+      .dept-text { fill: #444444; }
+      .dept-line { stroke: #444444; }
+    }
+  </style>
+  <text x="24" y="63"
+        font-family="'Syne','Space Grotesk',sans-serif"
+        font-size="42" font-weight="800" letter-spacing="-1"
+        class="wm-text" text-anchor="start"
+        dominant-baseline="middle">ARCANE</text>
+
+</svg>

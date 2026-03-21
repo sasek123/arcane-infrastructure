@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 380 100" width="380" height="100"
+     role="img" aria-label="Arcane Infrastructure logo">
+  <title>Arcane Infrastructure</title>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .wm-text  { fill: #f6f6f4; }
+      .dept-text { fill: #e8e0d0; }
+      .dept-line { stroke: #e8e0d0; }
+    }
+    @media (prefers-color-scheme: light) {
+      .wm-text  { fill: #060606; }
+      .dept-text { fill: #444444; }
+      .dept-line { stroke: #444444; }
+    }
+  </style>
+  <text x="24" y="55"
+        font-family="'Syne','Space Grotesk',sans-serif"
+        font-size="42" font-weight="800" letter-spacing="-1"
+        class="wm-text" text-anchor="start"
+        dominant-baseline="middle">ARCANE</text>
+
+  <line x1="24" y1="69" x2="40" y2="69"
+        class="dept-line" stroke-width="1.4" stroke-linecap="round"/>
+  <text x="46" y="72"
+        font-family="'Syne','Space Grotesk',sans-serif"
+        font-size="11" font-weight="400" letter-spacing="3.2"
+        class="dept-text" text-anchor="start">INFRASTRUCTURE</text>
+</svg>

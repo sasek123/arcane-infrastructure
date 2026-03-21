@@ -1,0 +1,104 @@
+/**
+ * ARCANE — Brand Design Tokens
+ * Generated from Brand Identity System v1.0
+ * arcane-equity.com · arcane-infra.com
+ */
+
+/* ── Color Palette ──────────────────────────────────────────────────────── */
+:root {
+  --arc-void:       #060606;    /* Primary background */
+  --arc-onyx:       #111111;    /* Card/surface bg */
+  --arc-carbon:     #1a1a1a;  /* Elevated surface */
+  --arc-slate:      #444444;   /* Muted text / metadata */
+  --arc-silver:     #c8c8c4;  /* Secondary text */
+  --arc-parchment:  #e8e0d0;  /* Sole accent color */
+  --arc-white:      #f6f6f4;   /* Primary text on dark */
+
+  /* Semantic aliases */
+  --arc-bg:         var(--arc-void);
+  --arc-surface:    var(--arc-onyx);
+  --arc-surface-2:  var(--arc-carbon);
+  --arc-text:       var(--arc-white);
+  --arc-text-muted: var(--arc-silver);
+  --arc-text-faint: var(--arc-slate);
+  --arc-accent:     var(--arc-parchment);
+
+  /* Borders */
+  --arc-border:     rgba(255, 255, 255, 0.06);
+  --arc-border-md:  rgba(255, 255, 255, 0.11);
+  --arc-border-lg:  rgba(255, 255, 255, 0.18);
+  --arc-border-accent: rgba(232, 224, 208, 0.25);
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────── */
+:root {
+  /* Font stacks */
+  --arc-font-display: 'Syne', 'Space Grotesk', system-ui, sans-serif;
+  --arc-font-body:    'Syne', 'Space Grotesk', system-ui, sans-serif;
+  --arc-font-mono:    'Space Mono', 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Scale */
+  --arc-text-xs:   0.625rem;   /*  10px */
+  --arc-text-sm:   0.75rem;    /*  12px */
+  --arc-text-base: 0.875rem;   /*  14px */
+  --arc-text-md:   1rem;       /*  16px */
+  --arc-text-lg:   1.25rem;    /*  20px */
+  --arc-text-xl:   1.5rem;     /*  24px */
+  --arc-text-2xl:  2rem;       /*  32px */
+  --arc-text-3xl:  3rem;       /*  48px */
+  --arc-text-4xl:  4rem;       /*  64px */
+  --arc-text-5xl:  5.5rem;     /*  88px */
+
+  /* Weights */
+  --arc-weight-light:   300;
+  --arc-weight-regular: 400;
+  --arc-weight-medium:  500;
+  --arc-weight-bold:    800;
+
+  /* Tracking */
+  --arc-tracking-tight:  -0.03em;
+  --arc-tracking-normal:  0;
+  --arc-tracking-wide:    0.12em;
+  --arc-tracking-wider:   0.22em;
+  --arc-tracking-widest:  0.30em;
+
+  /* Leading */
+  --arc-leading-tight:  1.05;
+  --arc-leading-snug:   1.3;
+  --arc-leading-normal: 1.6;
+  --arc-leading-loose:  1.75;
+}
+
+/* ── Spacing ─────────────────────────────────────────────────────────────── */
+:root {
+  --arc-space-1:   4px;
+  --arc-space-2:   8px;
+  --arc-space-3:   12px;
+  --arc-space-4:   16px;
+  --arc-space-5:   24px;
+  --arc-space-6:   32px;
+  --arc-space-7:   48px;
+  --arc-space-8:   64px;
+  --arc-space-9:   96px;
+  --arc-space-10:  128px;
+}
+
+/* ── Radii ───────────────────────────────────────────────────────────────── */
+:root {
+  --arc-radius-sm:  4px;
+  --arc-radius-md:  8px;
+  --arc-radius-lg:  12px;
+  --arc-radius-xl:  16px;
+  --arc-radius-pill: 999px;
+}
+
+/* ── Transitions ─────────────────────────────────────────────────────────── */
+:root {
+  --arc-ease:        cubic-bezier(0.16, 1, 0.3, 1);
+  --arc-ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --arc-ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --arc-duration-fast:   150ms;
+  --arc-duration-base:   250ms;
+  --arc-duration-slow:   400ms;
+  --arc-duration-slower: 700ms;
+}

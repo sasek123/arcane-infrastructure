@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcane — Component Demo</title>
+  <link rel="icon" href="../icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="arcane-tokens.css">
+  <link rel="stylesheet" href="arcane-components.css">
+  <style>
+    body { margin: 0; padding: 0; }
+    .demo-body {
+      background: var(--arc-bg);
+      padding: 80px 64px;
+      min-height: 100vh;
+    }
+    .demo-section { margin-bottom: 80px; }
+    .demo-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+    .demo-label {
+      font-family: monospace; font-size: 11px; color: #444;
+      margin-bottom: 8px; display: block;
+    }
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  </style>
+</head>
+<body class="arc-root">
+
+  <!-- NAV -->
+  <nav class="arc-nav">
+    <div class="arc-nav__logo">
+      <a class="arc-logo" href="#">
+        <div class="arc-icon arc-icon--sm">A</div>
+        <div class="arc-logo__text">
+          <div class="arc-logo__wm">Arcane</div>
+          <div class="arc-logo__dept">Infrastructure</div>
+        </div>
+      </a>
+    </div>
+    <div class="arc-nav__links">
+      <a class="arc-nav__link" href="#">Services</a>
+      <a class="arc-nav__link" href="#">Process</a>
+      <a class="arc-nav__link" href="#">Cases</a>
+    </div>
+    <a class="arc-nav__cta" href="#">Start a project</a>
+  </nav>
+
+  <div class="demo-body">
+
+    <!-- WORDMARKS -->
+    <div class="demo-section">
+      <div class="arc-section-head">
+        <div class="arc-section-num">Wordmarks</div>
+        <div class="arc-section-rule"></div>
+      </div>
+      <div class="demo-row">
+        <div class="arc-wordmark arc-wordmark--xl">ARCANE</div>
+      </div>
+      <div class="demo-row" style="margin-top:32px">
+        <div class="arc-wordmark arc-wordmark--lg">
+          ARCANE
+          <div class="arc-dept">Equity</div>
+        </div>
+        <div style="width:40px"></div>
+        <div class="arc-wordmark arc-wordmark--lg">
+          ARCANE
+          <div class="arc-dept">Infrastructure</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arc-divider"></div>
+
+    <!-- ICONS -->
+    <div class="demo-section">
+      <div class="arc-section-head">
+        <div class="arc-section-num">Icon marks</div>
+        <div class="arc-section-rule"></div>
+      </div>
+      <div class="demo-row">
+        <div class="arc-icon arc-icon--xs">A</div>
+        <div class="arc-icon arc-icon--sm">A</div>
+        <div class="arc-icon arc-icon--md">A</div>
+        <div class="arc-icon arc-icon--lg">A</div>
+        <div class="arc-icon arc-icon--xl">A</div>
+      </div>
+      <div class="demo-row" style="margin-top:12px">
+        <div class="arc-icon arc-icon--lg arc-icon--light">A</div>
+      </div>
+    </div>
+
+    <div class="arc-divider"></div>
+
+    <!-- BUTTONS -->
+    <div class="demo-section">
+      <div class="arc-section-head">
+        <div class="arc-section-num">Buttons</div>
+        <div class="arc-section-rule"></div>
+      </div>
+      <div class="demo-row">
+        <a class="arc-btn arc-btn--primary" href="#">Start a project</a>
+        <a class="arc-btn arc-btn--ghost" href="#">View case studies</a>
+        <a class="arc-btn arc-btn--primary arc-btn--lg" href="#">Our approach</a>
+        <a class="arc-btn arc-btn--ghost arc-btn--lg" href="#">Learn more</a>
+      </div>
+    </div>
+
+    <div class="arc-divider"></div>
+
+    <!-- CARDS -->
+    <div class="demo-section">
+      <div class="arc-section-head">
+        <div class="arc-section-num">Cards</div>
+        <div class="arc-section-rule"></div>
+      </div>
+      <div class="card-grid">
+        <div class="arc-card">
+          <div class="arc-label" style="margin-bottom:16px">Service</div>
+          <div class="arc-heading" style="font-size:1.25rem;margin-bottom:10px">AI Integration</div>
+          <div class="arc-body">End-to-end implementation of AI workflows into your existing operations.</div>
+        </div>
+        <div class="arc-card arc-card--elevated">
+          <div class="arc-label" style="margin-bottom:16px">Process</div>
+          <div class="arc-heading" style="font-size:1.25rem;margin-bottom:10px">90-Day Deploy</div>
+          <div class="arc-body">From discovery to production in a single quarter. No rework cycles.</div>
+        </div>
+        <div class="arc-card">
+          <div class="arc-label" style="margin-bottom:16px">Result</div>
+          <div class="arc-heading" style="font-size:1.25rem;margin-bottom:10px">3× Efficiency</div>
+          <div class="arc-body">Average operational throughput improvement across all deployments.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arc-divider"></div>
+
+    <!-- TAGS + LABELS -->
+    <div class="demo-section">
+      <div class="arc-section-head">
+        <div class="arc-section-num">Tags &amp; labels</div>
+        <div class="arc-section-rule"></div>
+      </div>
+      <div class="demo-row">
+        <span class="arc-tag">AI Agency</span>
+        <span class="arc-tag">SK · AT · CZ</span>
+        <span class="arc-tag">Est. 2025</span>
+        <span class="arc-meta">arcane-infra.com</span>
+      </div>
+    </div>
+
+    <div class="arc-divider"></div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="demo-section">
+      <div class="arc-section-head">
+        <div class="arc-section-num">Typography</div>
+        <div class="arc-section-rule"></div>
+      </div>
+      <div class="arc-display" style="margin-bottom:24px">Display</div>
+      <div class="arc-heading" style="margin-bottom:16px">Heading — decisive clarity</div>
+      <div class="arc-body" style="max-width:520px;margin-bottom:16px">
+        Arcane operates at the edge of capital and intelligence — invisible
+        in the market, impossible to ignore in the room.
+      </div>
+      <div class="arc-label">Label · Index · Metadata · Tag</div>
+    </div>
+
+  </div>
+</body>
+</html>

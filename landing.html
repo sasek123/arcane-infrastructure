@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcane Infrastructure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Tokens ─────────────────────────────────────────────────────────── */
+    :root {
+      --void:       #060606;
+      --onyx:       #111111;
+      --carbon:     #1a1a1a;
+      --slate:      #444444;
+      --silver:     #c8c8c4;
+      --parchment:  #e8e0d0;
+      --white:      #f6f6f4;
+
+      --border:         rgba(255, 255, 255, 0.06);
+      --border-md:      rgba(255, 255, 255, 0.11);
+      --border-lg:      rgba(255, 255, 255, 0.18);
+      --border-accent:  rgba(232, 224, 208, 0.25);
+
+      --font-display: 'Syne', system-ui, sans-serif;
+      --font-mono:    'Space Mono', monospace;
+
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--white);
+      font-family: var(--font-display);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Dot Grid Background ─────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Header ──────────────────────────────────────────────────────────── */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 24px;
+      pointer-events: none;
+    }
+
+    /* Login button — upper right, outside nav pill */
+    .login-btn {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 101;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--void);
+      background: var(--parchment);
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+      animation: fadeDown 0.6s var(--ease) 0.2s both;
+    }
+    .login-btn:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+    .login-btn::after {
+      content: '→';
+      font-size: 12px;
+    }
+
+    /* Glass Nav Pill — centered */
+    .glass-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(17, 17, 17, 0.55);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--border-md);
+      border-radius: 999px;
+      padding: 6px 8px;
+      pointer-events: all;
+      animation: fadeDown 0.6s var(--ease) both;
+    }
+
+    .glass-nav a {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(246, 246, 244, 0.5);
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 999px;
+      transition: color 150ms var(--ease), background 150ms var(--ease);
+      white-space: nowrap;
+    }
+    .glass-nav a:hover {
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .glass-nav a.active {
+      color: var(--void);
+      background: var(--parchment);
+    }
+
+    /* ── Hero ────────────────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Ghost wordmark */
+    .hero-ghost {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(160px, 25vw, 340px);
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      color: var(--white);
+      opacity: 0.025;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      line-height: 1;
+      z-index: 0;
+    }
+
+    /* Radial glow center */
+    .hero-glow {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse at center, rgba(232, 224, 208, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 140px 48px 80px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s var(--ease) 0.3s forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--parchment);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(64px, 10vw, 120px);
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease) 0.45s forwards;
+    }
+
+    .hero-title span {
+      color: var(--parchment);
+    }
+
+    .hero-sub {
+      max-width: 520px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(246, 246, 244, 0.42);
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease) 0.6s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease) 0.75s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--void);
+      background: var(--parchment);
+      border: none;
+      border-radius: 4px;
+      padding: 14px 32px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+    }
+    .btn-primary:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(246, 246, 244, 0.45);
+      background: transparent;
+      border: 1px solid var(--border-md);
+      border-radius: 4px;
+      padding: 14px 32px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 200ms var(--ease);
+    }
+    .btn-ghost:hover {
+      color: var(--white);
+      border-color: var(--border-lg);
+    }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(246, 246, 244, 0.2);
+      opacity: 0;
+      animation: fadeUp 1s var(--ease) 1.1s forwards;
+    }
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, transparent, rgba(246,246,244,0.2));
+    }
+
+    /* ── Divider Line ────────────────────────────────────────────────────── */
+    .section-rule {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Stats Strip ─────────────────────────────────────────────────────── */
+    .stats-strip {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      padding: 40px 0;
+      border-right: 1px solid var(--border);
+      padding-right: 32px;
+      padding-left: 32px;
+    }
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 40px;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-num span { color: var(--parchment); }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(246, 246, 244, 0.28);
+    }
+
+    /* ── Services ────────────────────────────────────────────────────────── */
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 96px 48px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 64px;
+    }
+    .section-num {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-num::before {
+      content: '';
+      width: 16px;
+      height: 1px;
+      background: var(--parchment);
+      display: block;
+    }
+    .section-rule-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(36px, 5vw, 56px);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: rgba(246, 246, 244, 0.4);
+      max-width: 440px;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 64px;
+    }
+
+    .service-card {
+      background: var(--onyx);
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: background 250ms var(--ease);
+    }
+    .service-card:hover {
+      background: var(--carbon);
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 64px;
+      height: 64px;
+      border-top-left-radius: 64px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+    }
+
+    .service-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border-md);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--parchment);
+      margin-bottom: 24px;
+    }
+
+    .service-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+
+    .service-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(246, 246, 244, 0.38);
+    }
+
+    /* ── Feature Band ────────────────────────────────────────────────────── */
+    .feature-band {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--onyx);
+      overflow: hidden;
+    }
+
+    .feature-band-ghost {
+      position: absolute;
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 160px;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      color: var(--white);
+      opacity: 0.03;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .feature-band-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .feature-band-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      border: 1px solid var(--border-accent);
+      border-radius: 4px;
+      padding: 5px 12px;
+      background: rgba(232, 224, 208, 0.05);
+      margin-bottom: 28px;
+    }
+
+    .feature-band-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(32px, 4vw, 48px);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .feature-band-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: rgba(246, 246, 244, 0.4);
+      margin-bottom: 36px;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 13px;
+      color: rgba(246, 246, 244, 0.55);
+      line-height: 1.5;
+    }
+    .feature-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 16px;
+      height: 1px;
+      background: var(--parchment);
+      margin-top: 9px;
+    }
+
+    /* ── CTA Section ─────────────────────────────────────────────────────── */
+    .cta-section {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 120px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .cta-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      margin-bottom: 28px;
+    }
+    .cta-eyebrow::before, .cta-eyebrow::after {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--parchment);
+      opacity: 0.5;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(48px, 7vw, 88px);
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      line-height: 0.95;
+      margin-bottom: 28px;
+    }
+    .cta-title span { color: var(--parchment); }
+
+    .cta-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: rgba(246, 246, 244, 0.38);
+      max-width: 440px;
+      margin: 0 auto 48px;
+    }
+
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .footer-logo-wm {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1;
+    }
+    .footer-logo-dept {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--parchment);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-logo-dept::before {
+      content: '';
+      width: 12px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(246, 246, 244, 0.25);
+      text-decoration: none;
+      transition: color 150ms var(--ease);
+    }
+    .footer-links a:hover { color: rgba(246, 246, 244, 0.6); }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: rgba(246, 246, 244, 0.15);
+    }
+
+    /* ── Animations ──────────────────────────────────────────────────────── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .glass-nav a:not(:first-child):not(:last-child):not(.active) {
+        display: none;
+      }
+      .stats-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-top: 1px solid var(--border); padding-left: 0; }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .feature-band-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .hero-inner, .section, .cta-section {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .footer-inner {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+      .footer-links { flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="header">
+    <nav class="glass-nav">
+      <a href="#services" class="active">Services</a>
+      <a href="#platform">Platform</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <a href="#login" class="login-btn">Login</a>
+
+  <!-- ── Hero ────────────────────────────────────────────────────────────── -->
+  <section class="hero" id="home">
+    <div class="hero-ghost">ARCANE</div>
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Infrastructure Division</div>
+      <h1 class="hero-title">
+        Built for<br>
+        <span>serious</span><br>
+        capital.
+      </h1>
+      <p class="hero-sub">
+        Institutional-grade infrastructure for the modern financial ecosystem. Precision engineering for those who demand more.
+      </p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn-primary">Get Access</a>
+        <a href="#services" class="btn-ghost">Explore Services</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Scroll to explore</div>
+  </section>
+
+  <!-- ── Stats Strip ───────────────────────────────────────────────────────── -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">$<span>4.2</span>B</div>
+        <div class="stat-label">Assets Under Management</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span>99.9</span>%</div>
+        <div class="stat-label">Platform Uptime</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span>140</span>+</div>
+        <div class="stat-label">Institutional Clients</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num"><span>12</span>ms</div>
+        <div class="stat-label">Average Execution</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Services ─────────────────────────────────────────────────────────── -->
+  <div id="services">
+    <div class="section">
+      <div class="section-head">
+        <div class="section-num">01 — Services</div>
+        <div class="section-rule-line"></div>
+      </div>
+      <h2 class="section-title">What we<br>provide</h2>
+      <p class="section-body">
+        A complete stack of financial infrastructure services, engineered for reliability and built for scale.
+      </p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">Σ</div>
+          <div class="service-title">Execution Infrastructure</div>
+          <div class="service-desc">Low-latency order routing and smart execution across venues. Built for institutional flow with precision at every layer.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">◈</div>
+          <div class="service-title">Risk & Compliance</div>
+          <div class="service-desc">Real-time risk monitoring, pre-trade checks, and regulatory reporting frameworks. Stay ahead of exposure at every moment.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⌬</div>
+          <div class="service-title">Data Architecture</div>
+          <div class="service-desc">High-frequency market data pipelines, normalized and ready for consumption. From tick to decision in milliseconds.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⊕</div>
+          <div class="service-title">Fund Administration</div>
+          <div class="service-desc">Automated NAV calculation, investor reporting, and capital account management for funds of any strategy and size.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">◇</div>
+          <div class="service-title">Prime Services</div>
+          <div class="service-desc">Custody, clearing, and financing solutions tailored to sophisticated strategies. White-glove support from day one.</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">∞</div>
+          <div class="service-title">API & Connectivity</div>
+          <div class="service-desc">FIX, REST, and WebSocket interfaces to every major venue. Integrate your systems with minimal friction and maximum reliability.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Feature Band ──────────────────────────────────────────────────────── -->
+  <div class="feature-band" id="platform">
+    <div class="feature-band-ghost">PLATFORM</div>
+    <div class="feature-band-inner">
+      <div>
+        <div class="feature-band-tag">Platform</div>
+        <h2 class="feature-band-title">Infrastructure<br>that never<br>sleeps.</h2>
+        <p class="feature-band-body">
+          Our platform is engineered for zero-downtime operation. Every component is redundant, every failover is tested, and every update is zero-disruption.
+        </p>
+        <a href="#contact" class="btn-primary">Schedule a Demo</a>
+      </div>
+      <ul class="feature-list">
+        <li>Multi-region active-active deployment with sub-second failover</li>
+        <li>End-to-end encryption with hardware security module key management</li>
+        <li>SOC 2 Type II certified, GDPR and MiFID II compliant</li>
+        <li>Dedicated connectivity to major global exchanges and dark pools</li>
+        <li>Configurable alerting and monitoring dashboard for operations teams</li>
+        <li>White-label options available for institutional resellers</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── CTA ───────────────────────────────────────────────────────────────── -->
+  <div id="contact">
+    <div class="cta-section">
+      <div class="cta-eyebrow">Get Started</div>
+      <h2 class="cta-title">Ready to<br><span>build</span> on<br>Arcane?</h2>
+      <p class="cta-body">
+        Join the institutions that trust Arcane Infrastructure to power their most critical operations.
+      </p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary">Request Access</a>
+        <a href="#" class="btn-ghost">Talk to Sales</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Footer ────────────────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <div class="footer-logo-wm">Arcane</div>
+        <div class="footer-logo-dept">Infrastructure</div>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+        <a href="#">Status</a>
+      </div>
+      <div class="footer-copy">© 2026 Arcane Infrastructure</div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth active nav highlight on scroll
+    const sections = document.querySelectorAll('section[id], div[id]');
+    const navLinks = document.querySelectorAll('.glass-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + entry.target.id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    sections.forEach(s => observer.observe(s));
+
+    // Subtle parallax on hero ghost text
+    const heroGhost = document.querySelector('.hero-ghost');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (heroGhost) {
+        heroGhost.style.transform = `translate(-50%, calc(-52% + ${y * 0.15}px))`;
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
