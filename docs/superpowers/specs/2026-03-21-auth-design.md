@@ -37,7 +37,7 @@ A simple, session-based authentication system for the Arcane Infrastructure web 
 |---|---|
 | Server | `express` |
 | Database | `better-sqlite3` |
-| Sessions | `express-session` + SQLite session store (`better-sqlite3-session-store`) |
+| Sessions | `express-session` + `connect-sqlite3` (MIT-licensed session store) |
 | Password hashing | `bcrypt` |
 | Env config | `dotenv` |
 
@@ -117,19 +117,20 @@ CREATE TABLE IF NOT EXISTS sessions (
 Checks `req.session.userId` exists. If not, redirects to `/login`. Applied to `/dashboard` and any future protected routes.
 
 **`requireAdmin`**
-Checks `req.session.role === 'admin'`. If not, returns 403. Applied to `/admin/invite`.
+Always chains `requireAuth` first (either by internally calling it, or routes apply both: `[requireAuth, requireAdmin]`). Then checks `req.session.role === 'admin'`. If role check fails, returns 403. This guarantees unauthenticated requests are redirected to `/login`, not just rejected with 403.
 
 ---
 
 ## Invite Flow
 
 1. Admin calls `GET /admin/invite?email=x@y.com&role=client`
-2. Server generates a 32-byte random hex token, stores it in `invites` with a 48h expiry
-3. Server returns the full invite URL: `/invite/<token>`
-4. Admin copies and shares the URL manually (Slack, email, etc.)
-5. Client opens the URL → server validates token (exists, unused, not expired) → serves `set-password.html`
-6. Client submits password → server hashes it, creates user row, marks invite as used
-7. Client redirected to `/login`
+2. Server validates that `role` is exactly `'admin'` or `'client'` — rejects with 400 otherwise
+3. Server generates a 32-byte random hex token, stores it in `invites` with a 48h expiry. **No user row is created at this point.**
+4. Server returns the full invite URL: `/invite/<token>`
+5. Admin copies and shares the URL manually (Slack, email, etc.)
+6. Client opens the URL → server validates token (exists, unused, not expired) → serves `set-password.html`
+7. Client submits password → server hashes the password with bcrypt (async, outside the transaction), then opens a **single `db.transaction()`** to insert the user row and mark the invite as used. This prevents double-submit race conditions. Note: bcrypt must complete before the transaction opens since `better-sqlite3` transactions are synchronous.
+8. Client redirected to `/login`
 
 ---
 
@@ -137,7 +138,7 @@ Checks `req.session.role === 'admin'`. If not, returns 403. Applied to `/admin/i
 
 1. Client submits email + password to `POST /login`
 2. Server looks up user by email, runs `bcrypt.compare`
-3. On success: sets `req.session.userId` and `req.session.role`, redirects to `/dashboard`
+3. On success: calls `req.session.regenerate()` first (prevents session fixation), then sets `req.session.userId` and `req.session.role`, redirects to `/dashboard`
 4. On failure: re-renders login page with a generic error ("Invalid email or password")
 
 ---
@@ -146,7 +147,19 @@ Checks `req.session.role === 'admin'`. If not, returns 403. Applied to `/admin/i
 
 - Passwords stored as bcrypt hashes (cost factor 12)
 - Sessions use a secret from `.env` (`SESSION_SECRET`)
-- `httpOnly: true`, `sameSite: 'strict'` on session cookie
+- Session cookie: `httpOnly: true`, `sameSite: 'strict'`, `secure: true` in production (gated on `NODE_ENV === 'production'`)
+- `req.session.regenerate()` called on login to prevent session fixation
 - Invite tokens are single-use and expire after 48 hours
+- Invite `role` param validated server-side — only `'admin'` or `'client'` accepted
+- User insert and invite token update execute in a single SQLite transaction
 - Login errors are intentionally generic (no user enumeration)
 - `.env` must be in `.gitignore`
+- Rate limiting is out of scope for now (noted as a future hardening step)
+
+## Environment Variables
+
+```
+SESSION_SECRET=<random string, min 32 chars>
+PORT=3000
+NODE_ENV=development   # set to 'production' in prod to enable secure cookies
+```
