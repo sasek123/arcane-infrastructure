@@ -29,7 +29,13 @@ function initDb(db) {
   `);
 }
 
-const db = new Database(path.join(__dirname, 'arcane.db'));
-initDb(db);
+let db;
+try {
+  db = new Database(path.join(__dirname, 'arcane.db'));
+  initDb(db);
+} catch (error) {
+  console.error('Failed to initialize database:', error.message);
+  process.exit(1);
+}
 
 module.exports = { db, initDb };
