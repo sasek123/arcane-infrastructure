@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Arcane Infrastructure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;800&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --void: #060606; --onyx: #111111; --parchment: #e8e0d0; --white: #f6f6f4; --border: rgba(255,255,255,0.08); }
+    body { background: var(--void); color: var(--white); font-family: 'Syne', sans-serif; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
+    header { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--border); background: rgba(6,6,6,0.8); backdrop-filter: blur(12px); }
+    .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+    .logo-wm { font-weight: 800; font-size: 16px; letter-spacing: -0.03em; text-transform: uppercase; }
+    .logo-dept { font-family: 'Space Mono', monospace; font-size: 7px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--parchment); margin-top: 2px; }
+    .logout { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(246,246,244,0.3); text-decoration: none; transition: color 150ms; }
+    .logout:hover { color: rgba(246,246,244,0.7); }
+    main { max-width: 1100px; margin: 0 auto; padding: 80px 48px; }
+    .tag { display: inline-flex; align-items: center; gap: 8px; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--parchment); border: 1px solid rgba(232,224,208,0.25); border-radius: 4px; padding: 5px 12px; background: rgba(232,224,208,0.05); margin-bottom: 28px; }
+    h1 { font-weight: 800; font-size: clamp(40px, 6vw, 72px); letter-spacing: -0.04em; text-transform: uppercase; line-height: 0.95; margin-bottom: 20px; }
+    .sub { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(246,246,244,0.3); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <div class="logo-wm">Arcane</div>
+        <div class="logo-dept">Infrastructure</div>
+      </div>
+      <a href="/logout" class="logout">Sign Out →</a>
+    </div>
+  </header>
+  <main>
+    <div class="tag">Dashboard</div>
+    <h1>Welcome<br>Back.</h1>
+    <p class="sub">Your dashboard is being built.</p>
+  </main>
+</body>
+</html>
