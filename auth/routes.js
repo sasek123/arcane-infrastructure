@@ -19,11 +19,11 @@ module.exports = function authRoutes(db) {
     const { email, password } = req.body;
     const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
     if (!user) {
-      return res.status(401).send('Invalid email or password.');
+      return res.status(401).sendFile(path.join(VIEWS, 'login.html'));
     }
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(401).send('Invalid email or password.');
+      return res.status(401).sendFile(path.join(VIEWS, 'login.html'));
     }
     req.session.regenerate((err) => {
       if (err) return res.status(500).send('Session error');
